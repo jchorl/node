@@ -118,6 +118,9 @@ build:  $(NODE_CONTAINER_BINARY)
 
 remote-deps: mod-download
 	# Recreate the directory so that we are sure to clean up any old files.
+	# NOTE: projectcalico/felix hardcodes in amd64 (https://github.com/projectcalico/felix/blob/330676be56ec2dfc8d39b1a52a076d3da4a7ca6e/bpf-gpl/Makefile#L27)
+	# So we need to sed to make it armmp.
+	# NOTE: debian now ships with armmp instead of armhf (https://wiki.debian.org/DebianKernel/ARMMP)
 	rm -rf filesystem/etc/calico/confd
 	mkdir -p filesystem/etc/calico/confd
 	rm -rf bin/bpf
@@ -135,6 +138,7 @@ remote-deps: mod-download
 		chmod -R +w bin/bpf; \
 		chmod +x bin/bpf/bpf-gpl/list-* bin/bpf/bpf-gpl/calculate-*; \
 		make -j 16 -C ./bin/bpf/bpf-apache/ all; \
+		sed -i'' s/amd64/armmp-lpae/ bin/bpf/bpf-gpl/Makefile; \
 		make -j 16 -C ./bin/bpf/bpf-gpl/ all; \
 		cp bin/bpf/bpf-gpl/bin/* filesystem/usr/lib/calico/bpf/; \
 		cp bin/bpf/bpf-apache/bin/* filesystem/usr/lib/calico/bpf/; \
