@@ -4,6 +4,5 @@ echo "$2" | docker login -u "$1" --password-stdin
 
 docker images
 
-docker tag jchorl/node:latest-arm jchorl/node:testing || true
-docker tag jchorl/node:latest-amd64 jchorl/node:testing || true
-docker push jchorl/node:testing
+docker tag jchorl/node:latest-arm jchorl/node:latest
+docker push jchorl/node:latest

@@ -11,13 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-ARG QEMU_IMAGE=jchorl/go-build:latest
-ARG BIRD_IMAGE=jchorl/bird:latest
+ARG QEMU_IMAGE=calico/go-build:latest
+ARG BIRD_IMAGE=calico/bird:latest
 
 FROM ${QEMU_IMAGE} as qemu
 FROM ${BIRD_IMAGE} as bird
 
-FROM calico/bpftool:v5.0-arm64 as bpftool
+FROM jchorl/bpftool:latest as bpftool
 
 FROM arm32v7/alpine:3.8 as base
 MAINTAINER Tom Denham <tom@projectcalico.org>
@@ -28,7 +28,7 @@ ARG ARCH=arm
 # This must be the first RUN command in this file!
 # we only need this for the intermediate "base" image, so we can run all the apk and other commands
 # when running on a kernel >= 4.8, this will become less relevant
-COPY --from=qemu /usr/bin/qemu-armv71-static /usr/bin/
+COPY --from=qemu /usr/bin/qemu-arm-static /usr/bin/
 
 # Install remaining runtime deps required for felix from the global repository
 RUN apk add --no-cache ip6tables ipset iputils iproute2 conntrack-tools runit ca-certificates
@@ -44,6 +44,6 @@ COPY dist/bin/calico-node-${ARCH} /bin/calico-node
 
 COPY --from=bpftool /bpftool /bin
 
-RUN rm /usr/bin/qemu-armv71-static
+RUN rm /usr/bin/qemu-arm-static
 
 CMD ["start_runit"]
