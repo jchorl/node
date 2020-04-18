@@ -138,7 +138,7 @@ remote-deps: mod-download
 		chmod -R +w bin/bpf; \
 		chmod +x bin/bpf/bpf-gpl/list-* bin/bpf/bpf-gpl/calculate-*; \
 		make -j 16 -C ./bin/bpf/bpf-apache/ all; \
-		sed -i'' s/amd64/armmp-lpae/ bin/bpf/bpf-gpl/Makefile; \
+		sed -i'' s/-amd64/.4-armmp/ bin/bpf/bpf-gpl/Makefile; \
 		make -j 16 -C ./bin/bpf/bpf-gpl/ all; \
 		cp bin/bpf/bpf-gpl/bin/* filesystem/usr/lib/calico/bpf/; \
 		cp bin/bpf/bpf-apache/bin/* filesystem/usr/lib/calico/bpf/; \
