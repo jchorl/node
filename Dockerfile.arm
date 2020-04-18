@@ -19,7 +19,7 @@ FROM ${BIRD_IMAGE} as bird
 
 FROM jchorl/bpftool:latest as bpftool
 
-FROM arm32v7/alpine:3.8 as base
+FROM arm32v7/alpine:3.11 as base
 MAINTAINER Tom Denham <tom@projectcalico.org>
 
 ARG ARCH=arm
