@@ -133,7 +133,8 @@ remote-deps: mod-download
 		cp -r `go list -m -f "{{.Dir}}" github.com/kelseyhightower/confd`/etc/calico/confd/config filesystem/etc/calico/confd/config; \
 		cp -r `go list -m -f "{{.Dir}}" github.com/kelseyhightower/confd`/etc/calico/confd/templates filesystem/etc/calico/confd/templates; \
 		cp `go list -m -f "{{.Dir}}" github.com/projectcalico/libcalico-go`/test/crds.yaml crds.yaml; \
-		go mod edit -replace=github.com/projectcalico/felix=github.com/jchorl/felix; \
+		go mod edit -replace=github.com/projectcalico/felix=github.com/jchorl/felix@ea216ab0cf03f38ad122b3aebd671a9a3520ba3f; \
+		go mod download; \
 		cp -r `go list -m -f "{{.Dir}}" github.com/projectcalico/felix`/bpf-gpl bin/bpf; \
 		cp -r `go list -m -f "{{.Dir}}" github.com/projectcalico/felix`/bpf-apache bin/bpf; \
 		chmod -R +w bin/bpf; \
