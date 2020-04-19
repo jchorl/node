@@ -18,6 +18,7 @@ deploy:
 env:
   global:
   - GO_BUILD_VER=master
+  - GOFLAGS=""
   - BUILD_IMAGE=jchorl/node
   - BIRD_IMAGE=jchorl/bird:latest
   - QEMU_IMAGE=jchorl/go-build:latest
